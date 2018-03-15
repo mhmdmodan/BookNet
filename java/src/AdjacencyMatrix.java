@@ -2,16 +2,20 @@ import java.util.*;
 
 public class AdjacencyMatrix {
     private Map<String, Integer> indices;
-    private double[][] adjacencyMatrix;
+    private Vector<Vector<Count>> adjacencyMatrix;
     private int dim;
 
     public AdjacencyMatrix(List<String> names) {
         dim = names.size();
         indices = new HashMap<>();
+        adjacencyMatrix = new Vector<>(dim);
         for (int i = 0; i < dim; i++) {
             indices.put(names.get(i), i);
+            adjacencyMatrix.add(new Vector<>(dim));
+            for (int j = 0; j < dim; j++) {
+                adjacencyMatrix.get(i).add(j, new Count(0));
+            }
         }
-        adjacencyMatrix = new double[dim][dim];
     }
 
     public void increment(Pair pair) {
@@ -19,17 +23,24 @@ public class AdjacencyMatrix {
         Integer index2 = indices.get(pair.getY());
         if (index1 == null || index2 == null) return;
 
-        adjacencyMatrix[index1][index2]++;
-        adjacencyMatrix[index2][index1]++;
+        adjacencyMatrix.get(index1).get(index2).increment();
+        adjacencyMatrix.get(index2).get(index1).increment();
     }
 
     public double[][] getAdjacencyMatrix() {
-        return adjacencyMatrix;
+        double[][] toReturn = new double[dim][dim];
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < dim; j++) {
+                toReturn[i][j] = adjacencyMatrix.get(i).get(j).getCount();
+            }
+        }
+
+        return toReturn;
     }
 
     public void print() {
         for (int i = 0; i < dim; i++) {
-            System.out.println(Arrays.toString(adjacencyMatrix[i]));
+            System.out.println(adjacencyMatrix.get(i));
         }
     }
 
@@ -45,5 +56,6 @@ public class AdjacencyMatrix {
         matrix.increment(new Pair("John", "Fred"));
         matrix.increment(new Pair("Jimmy", "Billy"));
         matrix.print();
+        System.out.println(Arrays.deepToString(matrix.getAdjacencyMatrix()));
     }
 }

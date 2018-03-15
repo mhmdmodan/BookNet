@@ -13,6 +13,10 @@ public class Count {
         if (count > 0) count--;
     }
 
+    public void increment() {
+        count++;
+    }
+
     public void setCount(int count) {
         this.count = count;
     }

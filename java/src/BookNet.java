@@ -10,12 +10,10 @@ public class BookNet {
     private String directory;
     private AdjacencyMatrix matrix;
     private List<String> names;
-    private List<Matcher> matchers;
 
     public BookNet(String directory, int queueSize) {
         this.directory = directory;
         names = new ArrayList<>();
-        matchers = new ArrayList<>();
         getNames();
         matrix = new AdjacencyMatrix(names);
         this.queueSize = queueSize;
@@ -33,22 +31,27 @@ public class BookNet {
         while (scanner.hasNext()) {
             String next = scanner.nextLine();
             names.add(next);
-            matchers.add(Pattern.compile(next).matcher(""));
         }
     }
 
     public void doAll() {
         File[] fileArray = new File(directory).listFiles();
         List<File> fileList = Arrays.asList(fileArray);
-        for (File file:fileList) {
-            if (file.equals(new File(directory + "//names.txt"))) continue;
-            String name = file.getAbsolutePath();
-            doOneFile(name);
-        }
+        fileList = new ArrayList<>(fileList);
+        fileList.remove(new File(directory + "//names.txt"));
+        fileList
+                .stream()
+                .parallel()
+                .map(File::getAbsolutePath)
+                .forEach(this::doOneFile);
         matrix.print();
     }
 
     private void doOneFile(String fullFilePath) {
+        List<Matcher> matchers = new ArrayList<>(names.size());
+        for (String name:names) {
+            matchers.add(Pattern.compile(name).matcher(""));
+        }
         //Create a scanner for the file
         FileInputStream stream;
         try {
