@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,12 +15,16 @@ public class BookNet {
     public BookNet(String directory, int queueSize) {
         this.directory = directory;
         names = new ArrayList<>();
-        getNames();
+        readNames();
         matrix = new AdjacencyMatrix(names);
         this.queueSize = queueSize;
     }
 
-    private void getNames() {
+    public String[] getNames() {
+        return names.toArray(new String[names.size()]);
+    }
+
+    private void readNames() {
         FileInputStream nameStream;
 
         try {
@@ -44,7 +49,11 @@ public class BookNet {
                 .parallel()
                 .map(File::getAbsolutePath)
                 .forEach(this::doOneFile);
-        matrix.print();
+        //matrix.print();
+    }
+
+    public double[][] getAdjacencyMatrix() {
+        return matrix.getAdjacencyMatrix();
     }
 
     private void doOneFile(String fullFilePath) {
@@ -67,12 +76,12 @@ public class BookNet {
             seen.put(pair, new Count(0));
         }
         //Initialize the queue
-        Queue<String> words = new ArrayDeque<>(queueSize);
+        Queue<String> words = new LinkedBlockingQueue<>(queueSize);
 
-        int currentWord = 0;
+        //int currentWord = 0;
         while (scanner.hasNext()) {
-            currentWord++;
-            if (currentWord % 1000 == 0) System.out.println(currentWord);
+            //currentWord++;
+            //if (currentWord % 1000 == 0) System.out.println(currentWord);
             //"Age" every entry in the seen map
             for (Map.Entry<Pair, Count> entry:seen.entrySet()) {
                 entry.getValue().decrement();
@@ -114,7 +123,9 @@ public class BookNet {
     }
 
     public static void main(String[] args) {
-        new BookNet("data", 15).doAll();
+        BookNet net = new BookNet("data", 15);
+        net.doAll();
+        System.out.println(net.getNames().length);
 //        System.out.println("Hello Jon how are you".matches(" Jon"));
 //        Pattern pattern = Pattern.compile(" Jon");
 //        Matcher matcher = pattern.matcher("Hello sJon's how are you");

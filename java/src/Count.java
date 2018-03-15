@@ -5,7 +5,7 @@ public class Count {
         this.count = count;
     }
 
-    public int getCount() {
+    public synchronized int getCount() {
         return count;
     }
 
@@ -13,7 +13,7 @@ public class Count {
         if (count > 0) count--;
     }
 
-    public void increment() {
+    public synchronized void increment() {
         count++;
     }
 
