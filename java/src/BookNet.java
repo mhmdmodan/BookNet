@@ -66,7 +66,10 @@ public class BookNet {
         //Initialize the queue
         Queue<String> words = new ArrayDeque<>(queueSize);
 
+        int currentWord = 0;
         while (scanner.hasNext()) {
+            currentWord++;
+            if (currentWord % 1000 == 0) System.out.println(currentWord);
             //"Age" every entry in the seen map
             for (Map.Entry<Pair, Count> entry:seen.entrySet()) {
                 entry.getValue().decrement();
@@ -83,6 +86,7 @@ public class BookNet {
             //Build a string from the queue to apply regex
             StringBuilder currentWindowBuilder = new StringBuilder();
             for (String word:words) {
+                currentWindowBuilder.append(" ");
                 currentWindowBuilder.append(word);
             }
             String currentWindow = currentWindowBuilder.toString();
@@ -107,12 +111,12 @@ public class BookNet {
     }
 
     public static void main(String[] args) {
-        //new BookNet("data", 15).doAll();
-        System.out.println("Hello Jon how are you".matches(" Jon"));
-        Pattern pattern = Pattern.compile(" Jon");
-        Matcher matcher = pattern.matcher("Hello sJon's how are you");
-        System.out.println(matcher.find());
-        matcher.reset("Hello Jon's how are you");
-        System.out.println(matcher.find());
+        new BookNet("data", 15).doAll();
+//        System.out.println("Hello Jon how are you".matches(" Jon"));
+//        Pattern pattern = Pattern.compile(" Jon");
+//        Matcher matcher = pattern.matcher("Hello sJon's how are you");
+//        System.out.println(matcher.find());
+//        matcher.reset("Hello Jon's how are you");
+//        System.out.println(matcher.find());
     }
 }
