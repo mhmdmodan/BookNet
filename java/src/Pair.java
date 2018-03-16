@@ -2,16 +2,32 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * An unordered pair of Strings. Equals and hashcode
+ * are independent of order, ie new Pair("1", "2") is
+ * equivalent to new Pair("2", "1")
+ */
 public class Pair {
 
     private String x;
     private String y;
 
+    /**
+     * Initialize it
+     * @param x string 1
+     * @param y string 2
+     */
     public Pair(String x, String y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Given a collection of strings, will return a set of all
+     * possible pairs
+     * @param labels a collection of Strings
+     * @return a set of all possible pairs
+     */
     public static Set<Pair> pairUp(Collection<String> labels) {
         Set<Pair> set = new HashSet<>();
         for (String str1:labels) {

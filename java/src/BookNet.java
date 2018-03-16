@@ -6,12 +6,27 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Object that reads a directory of text files and generates
+ * an adjacency matrix of characters in those text files.
+ * A connection is made when characters appear within
+ * queueSize tokens of each other, delimited by spaces.
+ * The directory must contain one "names.txt" file which
+ * consists of regular expressions one each line to search for, for a
+ * given character, ie "Jaime|Kingslayer" would match for
+ * Jaime Lannister in ASOIAF.
+ */
 public class BookNet {
     private int queueSize;
     private String directory;
     private AdjacencyMatrix matrix;
     private List<String> names;
 
+    /**
+     * Initializes the BookNet object
+     * @param directory path of the directory containing names.txt and other txt files
+     * @param queueSize size of the window to check for matches
+     */
     public BookNet(String directory, int queueSize) {
         this.directory = directory;
         names = new ArrayList<>();
@@ -20,10 +35,18 @@ public class BookNet {
         this.queueSize = queueSize;
     }
 
+    /**
+     * Get the regex of characters
+     * @return string array of regular expressions of characters
+     */
     public String[] getNames() {
         return names.toArray(new String[names.size()]);
     }
 
+    /**
+     * Read in the names from the names.txt file
+     * @throws NoSuchFileException when names.txt not found
+     */
     private void readNames() {
         FileInputStream nameStream;
 
@@ -39,6 +62,9 @@ public class BookNet {
         }
     }
 
+    /**
+     * Calles doOneFile for every text file, on a new thread
+     */
     public void doAll() {
         File[] fileArray = new File(directory).listFiles();
         List<File> fileList = Arrays.asList(fileArray);
@@ -49,13 +75,29 @@ public class BookNet {
                 .parallel()
                 .map(File::getAbsolutePath)
                 .forEach(this::doOneFile);
-        //matrix.print();
     }
 
+    /**
+     * Get the adjacency matrix
+     * @return a double[][] adjacency matrix, for R
+     */
     public double[][] getAdjacencyMatrix() {
         return matrix.getAdjacencyMatrix();
     }
 
+    /**
+     * For a given file, will iterate along on a queueSize-token
+     * window. On each iteration, will put every character regular
+     * expression that it sees in the window into a set. Every possible
+     * pairing of these characters will be generated, and each pairing
+     * will be incremented by one in the adjacency matrix.
+     *
+     * Additionally, a map of how many tokens a given token pair was seen
+     * is kept. If a pair is seen, the count is set to queueSize. Then, at
+     * each iteration, every count is decremented by one. This ensures that
+     * if a pair is "seen," it cannot be seen again for queueSize tokens.
+     * @param fullFilePath path of the file to analyze
+     */
     private void doOneFile(String fullFilePath) {
         List<Matcher> matchers = new ArrayList<>(names.size());
         for (String name:names) {
@@ -78,10 +120,7 @@ public class BookNet {
         //Initialize the queue
         Queue<String> words = new LinkedBlockingQueue<>(queueSize);
 
-        //int currentWord = 0;
         while (scanner.hasNext()) {
-            //currentWord++;
-            //if (currentWord % 1000 == 0) System.out.println(currentWord);
             //"Age" every entry in the seen map
             for (Map.Entry<Pair, Count> entry:seen.entrySet()) {
                 entry.getValue().decrement();

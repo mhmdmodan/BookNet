@@ -1,10 +1,17 @@
 import java.util.*;
 
+/**
+ * A class defining a thread-safe, undirected adjacency matrix
+ */
 public class AdjacencyMatrix {
     private Map<String, Integer> indices;
     private Vector<Vector<Count>> adjacencyMatrix;
     private int dim;
 
+    /**
+     * Initialize the matrix with zeros
+     * @param names an ordered String list for column/row names
+     */
     public AdjacencyMatrix(List<String> names) {
         dim = names.size();
         indices = new HashMap<>();
@@ -18,6 +25,10 @@ public class AdjacencyMatrix {
         }
     }
 
+    /**
+     * Increments the connection at the names defined by pair
+     * @param pair a Pair object of names to increment at
+     */
     public void increment(Pair pair) {
         Integer index1 = indices.get(pair.getX());
         Integer index2 = indices.get(pair.getY());
@@ -27,6 +38,10 @@ public class AdjacencyMatrix {
         adjacencyMatrix.get(index2).get(index1).increment();
     }
 
+    /**
+     * Get the adjacency matrix in primitive form
+     * @return a double[][] for the adjacency matrix
+     */
     public double[][] getAdjacencyMatrix() {
         double[][] toReturn = new double[dim][dim];
         for (int i = 0; i < dim; i++) {
@@ -38,6 +53,9 @@ public class AdjacencyMatrix {
         return toReturn;
     }
 
+    /**
+     * Print the matrix
+     */
     public void print() {
         for (int i = 0; i < dim; i++) {
             System.out.println(adjacencyMatrix.get(i));
