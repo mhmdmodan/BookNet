@@ -126,11 +126,5 @@ public class BookNet {
         BookNet net = new BookNet("data", 15);
         net.doAll();
         System.out.println(net.getNames().length);
-//        System.out.println("Hello Jon how are you".matches(" Jon"));
-//        Pattern pattern = Pattern.compile(" Jon");
-//        Matcher matcher = pattern.matcher("Hello sJon's how are you");
-//        System.out.println(matcher.find());
-//        matcher.reset("Hello Jon's how are you");
-//        System.out.println(matcher.find());
     }
 }

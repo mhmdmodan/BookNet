@@ -1,6 +1,7 @@
 booknet <- function(folder_path, vertex_names, window_length = 15, min_occurences = 0, percent_remove = 0) {
   class_name <- J("BookNet")
-  book_net <- new(class_name, folder_path, as.integer(window_length))
+  full_path <- gsub("\\\\", "//",normalizePath(folder_path))
+  book_net <- new(class_name, full_path, as.integer(window_length))
   .jcall(book_net, "V", "doAll")
   out_matrix <- .jcall(book_net, "[[D", "getAdjacencyMatrix")
   to_return <- matrix(nrow = 0, ncol = length(out_matrix))
@@ -16,6 +17,7 @@ booknet <- function(folder_path, vertex_names, window_length = 15, min_occurence
   }
 
   colnames(to_return) <- vertex_names
+  rownames(to_return) <- vertex_names
 
   if (min_occurences != 0) {
     for (r in 1:nrow(to_return)) {
