@@ -40,4 +40,4 @@ regular expressions which would match every alias for a character in every condi
 My regular expressions were simply a space, then the most common single word name for them. ie Khal Drogo was simply 
 ` Drogo`. Notice how Bran is the center, and Daenerys/that crew is separate from the rest of the graph
 
-![GoT Graph](https://mhmdmodan.com/images/got_graph.png)
+![GoT Graph](https://mhmdmodan.com/imgs/got_graph.png)
