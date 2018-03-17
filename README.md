@@ -38,4 +38,6 @@ interactive graphing platform
 Here's a graph of a few characters in *A Game of Thrones*. Note, I didn't take care in crafting 
 regular expressions which would match every alias for a character in every condition (ie beginning of quotes, etc).
 My regular expressions were simply a space, then the most common single word name for them. ie Khal Drogo was simply 
-` Drogo`.
+` Drogo`. Notice how Bran is the center, and Daenerys/that crew is separate from the rest of the graph
+
+![GoT Graph](https://mhmdmodan.com/images/got_graph.png)
