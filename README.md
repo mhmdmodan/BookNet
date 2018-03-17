@@ -1,10 +1,11 @@
 # BookNet
+### An R package which creates a graph of characters given a book text file. Written in Java with multithreading
 
 ![GoT Graph](https://mhmdmodan.com/imgs/got_graph.png)
 
 Inspired by [A Network of Thrones](https://www.macalester.edu/~abeverid/thrones.html), by one of my professors at Macalester College.
 
-A multithreaded Java program with a front end in R. Reads a directory of text files and generates
+Reads a directory of text files and generates
 an adjacency matrix/igraph graph of characters in those text files, with weights
 equal to the number of times the relationship appeared.
 A connection is made when characters appear within
