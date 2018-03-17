@@ -1,4 +1,6 @@
- # BookNet
+# BookNet
+
+![GoT Graph](https://mhmdmodan.com/imgs/got_graph.png)
 
 Inspired by [A Network of Thrones](https://www.macalester.edu/~abeverid/thrones.html), by one of my professors at Macalester College.
 
@@ -28,6 +30,12 @@ csv, which can be done simply with `write.csv(out$adjacency_matrix, file = "out.
 and importing this csv into [Gephi](https://gephi.org/), a much easier to use and 
 interactive graphing platform
 
+## Installation
+
+To install, run `install_github("mhmdmodan/BookNet")` from the `devtools` package. This may not work however due to R/Java architecture differences. In that case, clone the repo, open `BookNet.RProj` in RStudio, and press `CTRL+SHIFT+B` to Install and Restart.
+
+Java 8 is required.
+
 ## The Algorithm
 
 Start the following for each text file on a new thread:
@@ -45,9 +53,7 @@ if a pair is "seen," it cannot be seen again for `window_length` tokens.
 
 ## Quick Example
 
-Here's a graph of a few characters in *A Game of Thrones* that I made in Gephi, character names from [here](https://www.reddit.com/r/asoiaf/comments/2g3p7s/spoilers_all_ive_listed_and_counted_every/). Note, I didn't take care in crafting 
+Above is a graph of a few characters in *A Game of Thrones* that I made in Gephi, character names from [here](https://www.reddit.com/r/asoiaf/comments/2g3p7s/spoilers_all_ive_listed_and_counted_every/). Note, I didn't take care in crafting 
 regular expressions which would match every alias for a character in every condition (ie beginning of quotes, etc).
 My regular expressions were simply a space, then the most common single word name for them. ie Khal Drogo was simply 
 ` Drogo`. Notice how Bran is the center, and Daenerys/that crew is separate from the rest of the graph
-
-![GoT Graph](https://mhmdmodan.com/imgs/got_graph.png)
