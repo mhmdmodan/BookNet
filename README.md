@@ -33,7 +33,7 @@ interactive graphing platform
 
 ## Installation
 
-To install, run `install_github("mhmdmodan/BookNet")` from the `devtools` package. This may not work however due to R/Java architecture differences. In that case, clone the repo, open `BookNet.RProj` in RStudio, and press `CTRL+SHIFT+B` to Install and Restart.
+To install, run `install_github("mhmdmodan/BookNet", args="--no-multiarch")` from the `devtools` package. This may not work however due to R/Java architecture differences. In that case, clone the repo, open `BookNet.RProj` in RStudio, and press `CTRL+SHIFT+B` to Install and Restart.
 
 Java 8 is required.
 
